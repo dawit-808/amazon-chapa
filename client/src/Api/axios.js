@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  // baseURL: "https://amazon-clone-wf3n.onrender.com",
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000",
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
