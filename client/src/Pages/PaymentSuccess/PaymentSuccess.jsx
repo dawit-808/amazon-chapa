@@ -5,7 +5,7 @@ import { doc, collection, setDoc, collectionGroup } from "firebase/firestore";
 import { useContext } from "react";
 import { DataContext } from "../../components/DataProvider/DataProvider";
 import { Type } from "../../Utility/action.type";
-import axios from "axios";
+import { axiosInstance } from "../../Api/axios";
 
 function PaymentSuccess() {
   const location = useLocation();
@@ -24,9 +24,7 @@ function PaymentSuccess() {
       }
 
       try {
-        const response = await axios.get(
-          `http://localhost:5000/payment/verify/${txRef}`
-        );
+        const response = await axiosInstance.get(`/${txRef}`);
         const payment = response?.data?.data;
 
         if (!payment) {
