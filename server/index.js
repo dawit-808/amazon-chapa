@@ -33,7 +33,7 @@ app.post("/payment/create", async (req, res) => {
           phone_number: pNumber,
           tx_ref: ref,
           callback_url: `${process.env.BACKEND_URL}/payment/webhook`,
-          return_url: `${process.env.FRONTEND_URL}/payment/success?tx_ref=${ref}`,
+          return_url: `${process.env.FRONTEND_URL}/payment/success/${ref}`,
           "customization[title]": "Amazon Clone Payment",
           "customization[description]": "Thanks for shopping with us",
         },
