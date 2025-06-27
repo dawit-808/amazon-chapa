@@ -42,6 +42,7 @@ function Payment() {
 
       const checkoutUrl = response.data?.data?.checkout_url;
       if (checkoutUrl) {
+        localStorage.setItem("basket_backup", JSON.stringify(basket)); // save basket
         window.location.href = checkoutUrl;
       }
     } catch (error) {

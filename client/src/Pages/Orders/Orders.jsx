@@ -70,6 +70,9 @@ function Orders() {
                       style: "currency",
                       currency: "ETB",
                     })}
+                    <br />
+                    Amount each:
+                    {eachOrder.data.basket.map((amount) => amount)}
                   </p>
 
                   {eachOrder.data.basket.map((order) => (
