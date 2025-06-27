@@ -49,7 +49,7 @@ function Orders() {
                 You haven't placed any orders yet.
               </p>
             ) : (
-              orders.map((eachOrder, i) => (
+              orders?.map((eachOrder, i) => (
                 <div key={i}>
                   <hr />
                   <p>
@@ -65,10 +65,10 @@ function Orders() {
                       }
                     )}
                     <br />
-                    Total:{" "}
+                    Total:
                     {(eachOrder.data.amount / 100).toLocaleString("en-US", {
                       style: "currency",
-                      currency: "ብር",
+                      currency: "ETB",
                     })}
                   </p>
 

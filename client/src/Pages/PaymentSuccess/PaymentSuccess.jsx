@@ -27,7 +27,6 @@ function PaymentSuccess() {
         const response = await axios.get(
           `http://localhost:5000/payment/verify/${txRef}`
         );
-        console.log(response);
         const payment = response?.data?.data;
 
         if (!payment) {
