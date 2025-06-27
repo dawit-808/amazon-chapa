@@ -4,9 +4,9 @@ This is a full-stack web application built with:
 
 - ✅ **Frontend**: React.js
 - ⚙️ **Backend**: Node.js (Express)
-- 🛢️ **Database**: MySQL
+- 🛢️ **Database**: Firestore
 - 🔐 **Authentication**: Firebase Authentication
-- 💳 **Payments**: Stripe
+- 💳 **Payments**: Chapa
 
 # Amazon-clone Web App with Firebase Auth & Stripe
 
@@ -77,8 +77,8 @@ npm run dev
 
 - User authentication with Firebase (signup, login, logout)
 - Secure backend routes using Firebase ID tokens
-- User data stored in MySQL
-- Stripe payment integration (checkout session)
+- User data stored in Firestore database
+- Local payment integration (Chapa)
 - Modern React UI with protected routes
 - Modular structure for scalability
 
@@ -92,7 +92,7 @@ npm run dev
 git clone https://github.com/dawit-808/amazon-clone.git
 cd yamazon-clone
 
-> ⚠️ This project uses your **local MySQL database**, your own **Firebase project**, and your **Stripe account**. Make sure to configure your `.env` file with the correct credentials.
+> ⚠️ This project uses your **Firebase project**, and your **Chapa account**. Make sure to configure your `.env` file with the correct credentials.
 
 # Frontend
 cd client
