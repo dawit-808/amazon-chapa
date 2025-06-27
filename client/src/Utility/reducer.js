@@ -51,6 +51,16 @@ export const reducer = (state, action) => {
 
       return state;
     }
+
+    case Type.REMOVE_ITEM: {
+      const newBasket = state.basket.filter((item) => item.id !== action.id);
+
+      return {
+        ...state,
+        basket: newBasket,
+      };
+    }
+
     case Type.SET_USER: {
       return {
         ...state,
