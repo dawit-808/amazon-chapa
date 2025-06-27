@@ -25,21 +25,21 @@ function PaymentSuccess() {
 
       try {
         const response = await axios.get(
-          `https://api.chapa.co/v1/transaction/verify/${txRef}`,
-          {
-            headers: {
-              Authorization: `Bearer ${import.meta.env.VITE_CHAPA_SECRET_KEY}`,
-            },
-          }
+          `http://localhost:5000/payment/verify/${txRef}`
         );
+        console.log(response);
+        const payment = response?.data?.data;
 
-        const payment = response.data.data;
+        if (!payment) {
+          setMessage("No payment data received.");
+          return;
+        }
 
         if (payment.status === "success") {
           await setDoc(
             doc(collection(db, "users", user.uid, "orders"), txRef),
             {
-              basket,
+              basket: basket || [],
               amount: Number(payment.amount) * 100,
               created: Math.floor(Date.now() / 1000),
             }
@@ -62,7 +62,7 @@ function PaymentSuccess() {
     };
 
     verifyPayment();
-  }, [location.search, user]);
+  }, [location.search, user, basket, dispatch, navigate]);
 
   return (
     <div style={{ textAlign: "center", marginTop: "100px" }}>

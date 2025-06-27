@@ -61,6 +61,28 @@ app.post("/payment/webhook", (req, res) => {
   res.sendStatus(200);
 });
 
+// verify payment route
+
+app.get("/payment/verify/:txRef", async (req, res) => {
+  const { txRef } = req.params;
+
+  try {
+    const chapaResponse = await axios.get(
+      `https://api.chapa.co/v1/transaction/verify/${txRef}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.CHAPA_SECRET_KEY}`,
+        },
+      }
+    );
+
+    res.status(200).json(chapaResponse.data);
+  } catch (err) {
+    console.error("Error verifying payment:", err);
+    res.status(500).json({ error: "Failed to verify payment" });
+  }
+});
+
 // Start server
 app.listen(5000, (err) => {
   if (err) throw err;
