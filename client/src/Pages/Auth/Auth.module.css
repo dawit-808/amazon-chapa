@@ -1,0 +1,85 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.auth img {
+  object-fit: contain;
+  width: 120px;
+}
+.auth_container {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 1px solid gray;
+  padding: 20px;
+}
+.auth_container h1 {
+  font-size: 25px;
+  margin: 20px 0;
+}
+.auth_container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth_container form div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.auth_container form input {
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background-color: white;
+  width: 100%;
+  border: none;
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.auth_container form input:focus {
+  outline: 2px solid skyblue;
+}
+.auth_container .signin_btn {
+  border: none;
+  border-radius: 5px;
+  background: var(--primary-color);
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.auth_container .signin_btn:hover {
+  background: var(--secondary-color);
+}
+.auth_container p {
+  padding: 12px 0;
+  font-size: 14px;
+}
+.auth_container .signup_btn {
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding: 12px 0;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.auth_container .signup_btn:hover {
+  background: lightgray;
+}
+.auth_container .error {
+  color: #ff3333;
+  margin-top: 12px;
+  display: block;
+  text-align: center;
+}
+/* For the loader alignment */
+.signin_btn,
+.signup_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}

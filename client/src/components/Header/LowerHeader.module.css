@@ -1,0 +1,47 @@
+.lowerHeader {
+  background-color: #232f3e;
+  color: white;
+  padding: 0 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.lowerHeader ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.lowerHeader li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  height: 90%;
+  transition: background-color 0.2s ease, border 0.2s ease;
+  flex-shrink: 0;
+}
+
+.lowerHeader li:hover {
+  border: 1px solid white;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .lowerHeader {
+    padding: 0 10px;
+  }
+
+  .lowerHeader li {
+    padding: 0 6px;
+  }
+}

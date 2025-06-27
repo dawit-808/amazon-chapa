@@ -1,0 +1,22 @@
+.product_container {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: #e3e6e6;
+}
+.h1,
+.h4 {
+  padding: 30px;
+}
+@media (min-width: 768px) {
+  .product_container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .product_container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
