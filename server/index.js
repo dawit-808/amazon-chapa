@@ -33,7 +33,7 @@ app.post("/payment/create", async (req, res) => {
           phone_number: pNumber,
           tx_ref: ref,
           callback_url: "http://localhost:5000/payment/webhook",
-          return_url: "http://localhost:5173/orders",
+          return_url: `http://localhost:5173/payment/success?tx_ref=${ref}`,
           "customization[title]": "Amazon Clone Payment",
           "customization[description]": "Thanks for shopping with us",
         },
@@ -55,7 +55,7 @@ app.post("/payment/create", async (req, res) => {
   }
 });
 
-// Webhook receiver route (for Chapa callback)
+// Webhook receiver route
 app.post("/payment/webhook", (req, res) => {
   console.log("Webhook received:", req.body);
   res.sendStatus(200);

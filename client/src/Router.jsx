@@ -8,6 +8,7 @@ import Cart from "./Pages/Cart/Cart";
 import Results from "./Pages/Results/Results";
 import ProductDetail from "./Pages/ProductDetail/ProductDetail";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
+import PaymentSuccess from "./Pages/PaymentSuccess/PaymentSuccess";
 
 function Routing() {
   return (
@@ -26,6 +27,7 @@ function Routing() {
             </ProtectedRoutes>
           }
         />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
         <Route
           path="/orders"
           element={

@@ -6,10 +6,6 @@ import ProductCard from "../../components/Product/ProductCard";
 import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
-import { db } from "../../Utility/firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import { Type } from "../../Utility/action.type";
 
 function Payment() {
   const [{ user, basket }, dispatch] = useContext(DataContext);
@@ -30,12 +26,6 @@ function Payment() {
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState(user?.email || "");
   const [pNumber, setPNumber] = useState("");
-
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    e?.error?.message ? setCardError(e?.error?.message) : setCardError("");
-  };
 
   const handlePayment = async (e) => {
     e.preventDefault();
@@ -193,7 +183,7 @@ function Payment() {
                       <ClipLoader size={20} color="#ffffff" />
                     </>
                   ) : (
-                    "Complete Payment"
+                    "Checkout Payment"
                   )}
                 </button>
 

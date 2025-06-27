@@ -68,7 +68,7 @@ function Orders() {
                     Total:{" "}
                     {(eachOrder.data.amount / 100).toLocaleString("en-US", {
                       style: "currency",
-                      currency: "USD",
+                      currency: "ብር",
                     })}
                   </p>
 
