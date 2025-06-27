@@ -1,4 +1,4 @@
-# Amazon-clone Web App with Firebase Auth & Stripe
+# Amazon-clone Web App with Firebase Auth & Chapa
 
 This is a full-stack web application built with:
 
@@ -6,17 +6,7 @@ This is a full-stack web application built with:
 - ⚙️ **Backend**: Node.js (Express)
 - 🛢️ **Database**: Firestore
 - 🔐 **Authentication**: Firebase Authentication
-- 💳 **Payments**: Chapa
-
-# Amazon-clone Web App with Firebase Auth & Stripe
-
-This is a full-stack web application built with:
-
-- ✅ **Frontend**: React.js
-- ⚙️ **Backend**: Node.js (Express)
-- 🛢️ **Database**: Firestore
-- 🔐 **Authentication**: Firebase Authentication
-- 💳 **Payments**: Chapa
+- 💳 **Payment**: Chapa
 
 ---
 
