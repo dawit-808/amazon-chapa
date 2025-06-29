@@ -27,7 +27,7 @@ function Routing() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/success/:txRef" element={<PaymentSuccess />} />
         <Route
           path="/orders"
           element={
