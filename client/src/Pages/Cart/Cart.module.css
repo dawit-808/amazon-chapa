@@ -219,30 +219,6 @@
   color: #27ae60;
 }
 
-.gift_option {
-  margin: 25px 0;
-  padding: 20px 0;
-  border-top: 1px solid #f0f0f0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.gift_checkbox {
-  margin-right: 10px;
-}
-
-.gift_option label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 14px;
-  color: #7a7a7a;
-}
-
-.gift_icon {
-  margin-right: 8px;
-  color: #e74c3c;
-}
-
 .total_row {
   display: flex;
   justify-content: space-between;
@@ -260,8 +236,8 @@
   display: block;
   width: 100%;
   padding: 16px;
-  background-color: #2a2a2a;
-  color: white;
+  background-color: var(--primary-color);
+  color: black;
   text-align: center;
   text-decoration: none;
   border-radius: 4px;
@@ -272,29 +248,7 @@
 }
 
 .checkout_btn:hover {
-  background-color: #4a4a4a;
-}
-
-.assurance {
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  padding: 25px 30px;
-}
-
-.assurance_item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #7a7a7a;
-}
-
-.assurance_item svg {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  fill: #27ae60;
+  background-color: var(--secondary-color);
 }
 
 @media (max-width: 1024px) {
