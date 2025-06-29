@@ -71,7 +71,7 @@ function PaymentSuccess() {
         await setDoc(doc(collection(db, "users", user.uid, "orders"), txRef), {
           basket: finalBasket,
           amount: Number(payment.amount) * 100,
-          created: Date.now(),
+          created: Math.floor(Date.now() / 1000),
           status: "processing",
           paymentMethod: "Chapa",
           transactionRef: txRef,
