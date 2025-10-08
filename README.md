@@ -12,7 +12,7 @@ This is a full-stack web application built with:
 
 ## 🌐 Live Demo
 
-👉 [**View Live Site**](https://ama808zon.netlify.app/) 👈
+👉 [**View Live Site**](https://localshop808.netlify.app/) 👈
 
 ---
 
