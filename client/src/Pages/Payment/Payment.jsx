@@ -8,28 +8,28 @@ import { axiosInstance } from "../../Api/axios";
 import { ClipLoader } from "react-spinners";
 
 function Payment() {
-  const [{ user, basket }, dispatch] = useContext(DataContext);
-  const totalItem = basket?.reduce((amount, item) => {
-    return item.amount + amount;
-  }, 0);
+  const [{ user, basket }] = useContext(DataContext);
 
-  const total = basket.reduce(
-    (amount, item) => amount + item.price * item.amount,
-    0
-  );
+  const totalItems = basket?.reduce((sum, item) => sum + item.amount, 0);
+  const totalPrice = basket?.reduce((sum, item) => sum + item.price * item.amount, 0);
 
-  const [cardError, setCardError] = useState("");
-  const [processing, setProcessing] = useState(false);
-
-  // user info
   const [fName, setFName] = useState("");
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState(user?.email || "");
   const [pNumber, setPNumber] = useState("");
+  const [cardError, setCardError] = useState("");
+  const [processing, setProcessing] = useState(false);
 
   const handlePayment = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setCardError("You must sign in before making a payment.");
+      return;
+    }
+
     setProcessing(true);
+    setCardError("");
 
     try {
       const response = await axiosInstance.post("/payment/create", {
@@ -37,16 +37,21 @@ function Payment() {
         lName,
         email,
         pNumber,
-        amount: total,
+        basket,
+        amount: Math.round(totalPrice * 100), // in cents if backend expects it
       });
 
       const checkoutUrl = response.data?.data?.checkout_url;
+
       if (checkoutUrl) {
-        localStorage.setItem("basket_backup", JSON.stringify(basket)); // save basket
+        localStorage.setItem("basket_backup", JSON.stringify(basket));
         window.location.href = checkoutUrl;
+      } else {
+        setCardError("Payment link could not be created.");
       }
     } catch (error) {
       console.error("Payment Error:", error);
+      setCardError("Something went wrong. Please try again.");
     } finally {
       setProcessing(false);
     }
@@ -55,20 +60,20 @@ function Payment() {
   return (
     <LayOut>
       <div className={classes.payment_container}>
-        {/*  Header */}
-        <div className={classes.payment_header}>
+        {/* Header */}
+        <header className={classes.payment_header}>
           <div className={classes.header_content}>
             <h2>Complete Your Purchase</h2>
             <p className={classes.item_count}>
-              {totalItem} premium items selected
+              {totalItems} premium items selected
             </p>
           </div>
-        </div>
+        </header>
 
-        {/* Main Payment Content */}
         <div className={classes.payment_content}>
-          {/* Left Column - Order Summary */}
+          {/* Left Column */}
           <div className={classes.order_summary}>
+            {/* Delivery Info */}
             <section className={classes.section}>
               <h2 className={classes.section_title}>
                 <span className={classes.title_number}>1</span>
@@ -82,14 +87,13 @@ function Payment() {
                   </div>
                   <div className={classes.info_row}>
                     <span className={classes.info_label}>Location:</span>
-                    <span className={classes.info_value}>
-                      Addis Ababa, Ethiopia
-                    </span>
+                    <span className={classes.info_value}>Addis Ababa, Ethiopia</span>
                   </div>
                 </div>
               </div>
             </section>
 
+            {/* Order Summary */}
             <section className={classes.section}>
               <h2 className={classes.section_title}>
                 <span className={classes.title_number}>2</span>
@@ -97,13 +101,13 @@ function Payment() {
               </h2>
               <div className={classes.products_list}>
                 {basket?.map((item) => (
-                  <ProductCard key={item.id} product={item} flex={true} />
+                  <ProductCard key={item.id} product={item} flex />
                 ))}
               </div>
             </section>
           </div>
 
-          {/* Right Column - Payment Form */}
+          {/* Right Column */}
           <div className={classes.payment_form_container}>
             <div className={classes.payment_form_wrapper}>
               <h2 className={classes.section_title}>
@@ -132,7 +136,6 @@ function Payment() {
                       onChange={(e) => setFName(e.target.value)}
                     />
                   </div>
-
                   <div className={classes.form_group}>
                     <label className={classes.form_label}>Last Name</label>
                     <input
@@ -170,7 +173,7 @@ function Payment() {
                 <div className={classes.total_container}>
                   <div className={classes.total_label}>Order Total</div>
                   <div className={classes.total_amount}>
-                    <CurrencyFormat amount={total} />
+                    <CurrencyFormat amount={totalPrice} />
                   </div>
                 </div>
 
@@ -180,9 +183,7 @@ function Payment() {
                   disabled={processing}
                 >
                   {processing ? (
-                    <>
-                      <ClipLoader size={20} color="#ffffff" />
-                    </>
+                    <ClipLoader size={20} color="#ffffff" />
                   ) : (
                     "Checkout Payment"
                   )}
