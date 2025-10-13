@@ -4,33 +4,40 @@ import LayOut from "../../components/LayOut/LayOut";
 import { db } from "../../Utility/firebase";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { DataContext } from "../../components/DataProvider/DataProvider";
-import ProductCard from "../../components/Product/ProductCard";
 import CurrencyFormat from "../../components/CurrencyFormat/CurrencyFormat";
 
 function Orders() {
-  const [{ user }, dispatch] = useContext(DataContext);
+  const [{ user }] = useContext(DataContext);
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) {
-      const ordersRef = collection(db, "users", user.uid, "orders");
-      const q = query(ordersRef, orderBy("created", "desc"));
+    if (!user?.uid) {
+      setOrders([]);
+      setLoading(false);
+      return;
+    }
 
-      const unsubscribe = onSnapshot(q, (snapshot) => {
+    const ordersRef = collection(db, "users", user.uid, "orders");
+    const q = query(ordersRef, orderBy("created", "desc"));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
         const ordersData = snapshot.docs.map((doc) => ({
           id: doc.id,
-          data: doc.data(),
+          ...doc.data(),
         }));
         setOrders(ordersData);
         setLoading(false);
-      });
+      },
+      (error) => {
+        console.error("Error fetching orders:", error);
+        setLoading(false);
+      }
+    );
 
-      return () => unsubscribe();
-    } else {
-      setOrders([]);
-      setLoading(false);
-    }
+    return () => unsubscribe();
   }, [user]);
 
   if (loading) {
@@ -47,10 +54,10 @@ function Orders() {
     <LayOut>
       <section className={classes.container}>
         <div className={classes.orders_container}>
-          <div className={classes.header_wrapper}>
+          <header className={classes.header_wrapper}>
             <h2>Your Order History</h2>
             <p className={classes.subtitle}>All your purchases in one place</p>
-          </div>
+          </header>
 
           {orders.length === 0 ? (
             <div className={classes.empty_state}>
@@ -60,71 +67,63 @@ function Orders() {
                 </svg>
               </div>
               <h3>No Orders Yet</h3>
-              <p>Your ordered items will appear here</p>
+              <p>Your ordered items will appear here.</p>
             </div>
           ) : (
             <div className={classes.orders_list}>
-              {orders.map((eachOrder, i) => {
-                const calculatedTotal = eachOrder.data.basket?.reduce(
-                  (sum, item) => sum + item.price * item.amount,
-                  0
-                );
-                const orderTotal = eachOrder.data.amount
-                  ? eachOrder.data.amount / 100
-                  : calculatedTotal;
+              {orders.map((order) => {
+                const basket = order.basket || [];
+                const total =
+                  order.amount
+                    ? order.amount / 100
+                    : basket.reduce((sum, item) => sum + item.price * item.amount, 0);
+
+                const orderDate = order.created
+                  ? new Date(order.created * 1000).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })
+                  : "Unknown";
 
                 return (
-                  <div key={i} className={classes.order_card}>
+                  <div key={order.id} className={classes.order_card}>
                     <div className={classes.order_header}>
                       <div className={classes.order_meta}>
                         <div>
                           <span className={classes.meta_label}>Order #</span>
-                          <span className={classes.order_id}>
-                            {eachOrder.id}
-                          </span>
+                          <span className={classes.order_id}>{order.id}</span>
                         </div>
                         <div>
                           <span className={classes.meta_label}>Date</span>
-                          <span className={classes.order_date}>
-                            {new Date(
-                              eachOrder.data.created * 1000
-                            ).toLocaleDateString("en-US", {
-                              year: "numeric",
-                              month: "short",
-                              day: "numeric",
-                            })}
-                          </span>
+                          <span className={classes.order_date}>{orderDate}</span>
                         </div>
                       </div>
                       <div className={classes.order_total}>
                         <span className={classes.total_label}>Total</span>
                         <span className={classes.total_amount}>
-                          <CurrencyFormat amount={orderTotal} />
+                          <CurrencyFormat amount={total} />
                         </span>
                       </div>
                     </div>
 
                     <div className={classes.order_items}>
-                      {eachOrder.data.basket?.map((order) => (
-                        <div key={order.id} className={classes.order_item}>
+                      {basket.map((item) => (
+                        <div key={item.id} className={classes.order_item}>
                           <div className={classes.item_image}>
-                            <img src={order.image} alt={order.title} />
+                            <img src={item.image} alt={item.title} />
                           </div>
                           <div className={classes.item_details}>
-                            <h4 className={classes.item_title}>
-                              {order.title}
-                            </h4>
+                            <h4 className={classes.item_title}>{item.title}</h4>
                             <div className={classes.item_meta}>
                               <span className={classes.item_price}>
-                                <CurrencyFormat amount={order.price} />
+                                <CurrencyFormat amount={item.price} />
                               </span>
                               <span className={classes.item_quantity}>
-                                × {order.amount}
+                                × {item.amount}
                               </span>
                               <span className={classes.item_subtotal}>
-                                <CurrencyFormat
-                                  amount={order.price * order.amount}
-                                />
+                                <CurrencyFormat amount={item.price * item.amount} />
                               </span>
                             </div>
                           </div>
